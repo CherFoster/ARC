@@ -12,7 +12,7 @@ assignment = db.Table('assignment',
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-_password_hash',)
+    serialize_rules = ('-_password_hash', '-notes.user',)
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
@@ -50,6 +50,8 @@ class User(db.Model, SerializerMixin):
 class House(db.Model, SerializerMixin):
     __tablename__ = "houses"
 
+    serialize_rules = ('-users', '-notes.user',)
+
     id = db.Column(db.Integer, primary_key=True)
     address = db.Column(db.String)
     latitude = db.Column(db.Float)
@@ -60,7 +62,7 @@ class House(db.Model, SerializerMixin):
 
     evacuation_status = db.relationship('EvacuationStatus', uselist=False)
 
-    users = db.relationship('User', secondary=assignment, back_populates='house')
+    users = db.relationship('User', secondary=assignment, back_populates='houses')
 
     notes = db.relationship('Note', back_populates='house')
 
@@ -93,6 +95,8 @@ class EvacuationStatus(db.Model, SerializerMixin):
     
 class Note(db.Model, SerializerMixin):
     __tablename__ = "notes"
+
+    serialize_rules = ('-user.notes', '-house.notes',)
 
     id = db.Column(db.Integer, primary_key=True)
     details = db.Column(db.String)
