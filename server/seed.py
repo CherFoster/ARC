@@ -42,10 +42,7 @@ if __name__ == '__main__':
                 occupants = random.randint(0,20),
                 animals = random.randint(0,20)
             )
-            # overrides the default None initialization to start as an empty list
             houses.append(house)
-            # for house in houses:
-            #     house.evacuation_status = []
         db.session.add_all(houses)
         db.session.commit()
 
@@ -53,22 +50,21 @@ if __name__ == '__main__':
         for user in users:
             user_houses = random.sample(houses, k=randint(1,5))
             for house in user_houses:
+                # create a SQL statement to insert an assignment into the assignment table
                 stmt = assignment.insert().values(
                     user_id=user.id, 
                     house_id=house.id) 
-    
+                 # compile the SQL statement into a string with literal binds
                 rendered = stmt.compile(compile_kwargs={"literal_binds": True})
                 sql = str(rendered)
     
                 assignments.append(sql)
         db.session.commit()
 
-# Execute INSERTs    
+        # Execute INSERTs    
         for stmt in assignments:
             db.session.execute(text(stmt))
-
         db.session.commit()
-
 
         statuses = []
         status_options = [
