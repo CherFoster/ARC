@@ -33,17 +33,20 @@ if __name__ == '__main__':
         houses = []
         for _ in range(10):
             house = House(
-                address = fake.address(),
-                latitude = random.uniform(-90.0, 90.0),
-                longitude = random.uniform(-90.0, 90.0),
+                house_number = fake.random_int(min=000, max=9999),
+                street_name = fake.street_name(),
+                city = fake.city(),
+                zip_code = fake.zipcode(),
+                latitude = random.uniform(24.0, 50.0),
+                longitude = random.uniform(-125.0, -67.0),
                 occupants = random.randint(0,20),
                 animals = random.randint(0,20)
             )
             # overrides the default None initialization to start as an empty list
             houses.append(house)
-            for house in houses:
-                house.evacuation_status = []
-            db.session.add_all(houses)
+            # for house in houses:
+            #     house.evacuation_status = []
+        db.session.add_all(houses)
         db.session.commit()
 
         assignments = []
@@ -67,7 +70,7 @@ if __name__ == '__main__':
         db.session.commit()
 
 
-        status_array = []
+        statuses = []
         status_options = [
             "Not contacted",
             "Evacuated",
@@ -77,13 +80,13 @@ if __name__ == '__main__':
             "Unable to contact"
         ]
         for house in houses:
-            evacuation_status = EvacuationStatus(
+            status = EvacuationStatus(
                 status = random.choice(status_options),
                 timestamp = fake.date_time_this_decade()
             )
-            house.evacuation_status.append(evacuation_status)
-            status_array.append(evacuation_status)
-        db.session.add_all(status_array)
+            db.session.add(status)
+            house.evacuation_status = status
+            statuses.append(status)
         db.session.commit()
 
         notes = []

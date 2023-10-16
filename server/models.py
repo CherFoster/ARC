@@ -53,14 +53,17 @@ class House(db.Model, SerializerMixin):
     serialize_rules = ('-users', '-notes.user',)
 
     id = db.Column(db.Integer, primary_key=True)
-    address = db.Column(db.String)
+    house_number = db.Column(db.Integer)
+    street_name = db.Column(db.String)
+    city = db.Column(db.String)
+    zip_code = db.Column(db.Integer)
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
     occupants = db.Column(db.Integer)
     animals = db.Column(db.Integer)
     evacuation_status_id = db.Column(db.Integer, db.ForeignKey('evac_status.id'), unique=True)
 
-    evacuation_status = db.relationship('EvacuationStatus', uselist=False)
+    evacuation_status = db.relationship('EvacuationStatus', back_populates='house', uselist=False)
 
     users = db.relationship('User', secondary=assignment, back_populates='houses')
 
@@ -68,7 +71,7 @@ class House(db.Model, SerializerMixin):
 
     def __repr__(self):
         return (
-            f'Address: {self.address}, ' \
+            f'Address: {self.house_number} {self.street_name}, {self.city}, {self.zip_code}, ' \
             + f'Latitude: {self.latitude}, ' \
             + f'Longitude: {self.longitude} ' \
             + f'Number of Occupants: {self.occupants}, ' \
