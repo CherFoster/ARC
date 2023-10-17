@@ -50,7 +50,7 @@ class User(db.Model, SerializerMixin):
 class House(db.Model, SerializerMixin):
     __tablename__ = "houses"
 
-    serialize_rules = ('-user', '-notes.user', '-evac_status',)
+    serialize_rules = ('-users', '-notes', '-evacuation_status',)
 
     id = db.Column(db.Integer, primary_key=True)
     house_number = db.Column(db.Integer)

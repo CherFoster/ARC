@@ -104,6 +104,14 @@ class Houses(Resource):
         return make_response(houses, 200)
 api.add_resource(Houses, '/api/houses')
 
+class HouseById(Resource):
+    def get(self, id):
+        house = House.query.filter_by(id=id).first()
+        if not house:
+            raise NotFound
+        return make_response(house.to_dict(), 200)
+api.add_resource(HouseById, '/api/houses/<int:id>')
+
 
 
 if __name__ == '__main__':
