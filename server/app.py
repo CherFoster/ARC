@@ -69,6 +69,42 @@ class Logout(Resource):
         return response
 api.add_resource(Logout, '/api/logout')
 
+class Users(Resource):
+    def get(self):
+        users = [user.to_dict() for user in User.query.all()]
+        return make_response(users, 200)
+api.add_resource(Users, '/api/users')
+
+class UsersById(Resource):
+    def get(self, id):
+        user = User.query.filter_by(id=id).first()
+        if not user:
+            raise NotFound
+        return make_response(user.to_dict(), 200)
+    
+    def patch(self, id):
+        data = request.get_json()
+        user = User.query.get(id)
+        if not user:
+            raise NotFound
+        if not session.get('user_id'):
+            return {"message" : "Unauthorized"}, 401
+        if 'agency' in data:
+            user.agency = data['agency']
+        if 'image' in data:
+            user.image = data['image']
+
+        db.session.commit()
+        return make_response(user.to_dict(), 200) 
+api.add_resource(UsersById, '/api/users/<int:id>')
+
+class Houses(Resource):
+    def get(self):
+        houses = [house.to_dict() for house in House.query.all()]
+        return make_response(houses, 200)
+api.add_resource(Houses, '/api/houses')
+
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

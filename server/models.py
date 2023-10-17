@@ -11,8 +11,8 @@ assignment = db.Table('assignment',
 )
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
-
-    serialize_rules = ('-_password_hash', '-notes.user',)
+    # works for users recursion
+    serialize_rules = ('-_password_hash', '-notes', '-houses',)
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False)
@@ -50,7 +50,7 @@ class User(db.Model, SerializerMixin):
 class House(db.Model, SerializerMixin):
     __tablename__ = "houses"
 
-    serialize_rules = ('-users', '-notes.user',)
+    serialize_rules = ('-user', '-notes.user', '-evac_status',)
 
     id = db.Column(db.Integer, primary_key=True)
     house_number = db.Column(db.Integer)
