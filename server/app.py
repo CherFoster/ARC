@@ -102,6 +102,43 @@ class Houses(Resource):
     def get(self):
         houses = [house.to_dict() for house in House.query.all()]
         return make_response(houses, 200)
+    
+    def post(self):
+        data = request.get_json()
+        house_number = data.get('house_number')
+        street_name = data.get('street_name')
+        city = data.get('city')
+        zip_code = data.get('zip_code')
+        latitude = data.get('latitude')
+        longitude = data.get('longitude')
+        occupants = data.get('occupants')
+        animals = data.get('animals')
+        evac_status = data.get('evac_status')
+
+        try:
+            new_house = House(
+                house_number=house_number,
+                street_name=street_name,
+                city=city,
+                zip_code=zip_code,
+                latitude=latitude,
+                longitude=longitude,
+                occupants=occupants,
+                animals=animals,
+            )
+            # status = EvacuationStatus.query.filter_by(evac_status=evac_status).first()
+            # if not status:
+            #     status = EvacuationStatus(evac_status=evac_status)
+            #     db.session.add(status)
+
+            # status.houses.append(new_house)
+        
+        except ValueError as e:
+            abort(422, e.args[0])
+        
+        db.session.add(new_house)
+        db.session.commit()
+        return make_response(new_house.to_dict(), 201)
 api.add_resource(Houses, '/api/houses')
 
 class HouseById(Resource):
@@ -111,6 +148,12 @@ class HouseById(Resource):
             raise NotFound
         return make_response(house.to_dict(), 200)
 api.add_resource(HouseById, '/api/houses/<int:id>')
+
+class Notes(Resource):
+    def get(self):
+        notes = [note.to_dict() for note in Note.query.all()]
+        return make_response(notes, 200)
+api.add_resource(Notes, '/api/notes')
 
 
 
