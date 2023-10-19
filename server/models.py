@@ -61,7 +61,6 @@ class House(db.Model, SerializerMixin):
     longitude = db.Column(db.Float)
     occupants = db.Column(db.Integer)
     animals = db.Column(db.Integer)
-    # evacuation_status_id = db.Column(db.Integer, db.ForeignKey('evac_status.id'), unique=True)
 
     evacuation_status = db.relationship('EvacuationStatus', back_populates='house', uselist=False)
 
@@ -69,6 +68,7 @@ class House(db.Model, SerializerMixin):
 
     notes = db.relationship('Note', back_populates='house')
 
+    # show the actual evacuation status as a string 
     def to_dict(self):
         data = super().to_dict()
 
@@ -108,7 +108,7 @@ class EvacuationStatus(db.Model, SerializerMixin):
 class Note(db.Model, SerializerMixin):
     __tablename__ = "notes"
 
-    serialize_rules = ('-user.notes', '-house.notes',)
+    serialize_rules = ('-user.notes', '-house_id', '-user.id', '-user.email', '-user_id', '-house.id', '-id', )
 
     id = db.Column(db.Integer, primary_key=True)
     details = db.Column(db.String)
@@ -119,6 +119,12 @@ class Note(db.Model, SerializerMixin):
 
     user = db.relationship('User', back_populates='notes')
     house = db.relationship('House', back_populates='notes')
+    
+    # serialize the full house object so in /houses/id/notes it includes the evacuation status
+    def to_dict(self):
+        data = super().to_dict()
+        data['house'] = self.house.to_dict() 
+        return data
 
     def __repr__(self):
         return (

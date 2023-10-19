@@ -158,14 +158,29 @@ class HouseById(Resource):
 
         db.session.commit()
         return make_response(house.to_dict(), 200)
+    
+    def delete(self, id):
+        house = House.query.get(id)
+        if not house:
+            raise NotFound
+        # delete associated notes with house eventually
+
+        db.session.delete(house)
+        db.session.commit()
+        return make_response("Deleted", 204)
 
 api.add_resource(HouseById, '/api/houses/<int:id>')
 
 class Notes(Resource):
-    def get(self):
-        notes = [note.to_dict() for note in Note.query.all()]
-        return make_response(notes, 200)
-api.add_resource(Notes, '/api/notes')
+    def get(self, house_id):
+        house = House.query.filter_by(id=house_id).first()
+        if not house:
+            raise NotFound
+        
+        notes = Note.query.filter_by(house_id=house_id).all()
+        note_list = [note.to_dict() for note in notes]
+        return make_response(note_list, 200)
+api.add_resource(Notes, '/api/houses/<int:house_id>/notes')
 
 
 
