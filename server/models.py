@@ -61,13 +61,21 @@ class House(db.Model, SerializerMixin):
     longitude = db.Column(db.Float)
     occupants = db.Column(db.Integer)
     animals = db.Column(db.Integer)
-    evacuation_status_id = db.Column(db.Integer, db.ForeignKey('evac_status.id'), unique=True)
+    # evacuation_status_id = db.Column(db.Integer, db.ForeignKey('evac_status.id'), unique=True)
 
     evacuation_status = db.relationship('EvacuationStatus', back_populates='house', uselist=False)
 
     users = db.relationship('User', secondary=assignment, back_populates='houses')
 
     notes = db.relationship('Note', back_populates='house')
+
+    def to_dict(self):
+        data = super().to_dict()
+
+        if self.evacuation_status:
+            data['evacuation_status'] = self.evacuation_status.status
+    
+        return data
 
     def __repr__(self):
         return (
@@ -84,6 +92,7 @@ class EvacuationStatus(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    house_id = db.Column(db.Integer, db.ForeignKey('houses.id'))
     
     house = db.relationship('House', back_populates='evacuation_status')
 

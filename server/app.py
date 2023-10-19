@@ -113,7 +113,6 @@ class Houses(Resource):
         longitude = data.get('longitude')
         occupants = data.get('occupants')
         animals = data.get('animals')
-        evac_status = data.get('evac_status')
 
         try:
             new_house = House(
@@ -126,13 +125,9 @@ class Houses(Resource):
                 occupants=occupants,
                 animals=animals,
             )
-            # status = EvacuationStatus.query.filter_by(evac_status=evac_status).first()
-            # if not status:
-            #     status = EvacuationStatus(evac_status=evac_status)
-            #     db.session.add(status)
+            evacuation_status = EvacuationStatus(status="pending")
+            new_house.evacuation_status = evacuation_status
 
-            # status.houses.append(new_house)
-        
         except ValueError as e:
             abort(422, e.args[0])
         
@@ -147,6 +142,23 @@ class HouseById(Resource):
         if not house:
             raise NotFound
         return make_response(house.to_dict(), 200)
+    
+    def patch(self, id):
+        data = request.get_json()
+        house = House.query.get(id)
+
+        if house:
+            evacuation_status = EvacuationStatus.query.filter_by(house_id=house.id).first()
+        if 'status' in data:
+            evacuation_status.status = data['status']
+        if 'occupants' in data:
+            house.occupants = data['occupants']
+        if 'animals' in data:
+            house.animals = data['animals']
+
+        db.session.commit()
+        return make_response(house.to_dict(), 200)
+
 api.add_resource(HouseById, '/api/houses/<int:id>')
 
 class Notes(Resource):
