@@ -3,9 +3,13 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import '../styles/SliderForm.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginStart, loginSuccess, loginFailure } from "../redux/authSlice";
 
-const AuthenticationForm = ({ onLogin }) => {
+function AuthenticationForm() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const auth = useSelector((state) => state.auth);
 
     const signUpSchema = yup.object().shape({
         username: yup.string().required('Username required'),
@@ -15,7 +19,7 @@ const AuthenticationForm = ({ onLogin }) => {
     });
 
     const signInSchema = yup.object().shape({
-        email: yup.string().email().required('Email required'),
+        username: yup.string().required('Username required'),
         password: yup.string().required('Password required'),
     });
 
@@ -27,8 +31,31 @@ const AuthenticationForm = ({ onLogin }) => {
             agency: '',
         },
         validationSchema: signUpSchema,
-        onSubmit: async (values, { setSubmitting, setErrors }) => {
-            // ... similar logic as before ...
+        onSubmit: (values, { setSubmitting, setErrors }) => {
+            dispatch(loginStart()); // Dispatch start action
+            fetch('/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values)
+            }).then((res) => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    return res.json().then(err => {
+                        throw err;
+                    });
+                }
+            }).then((user) => {
+                dispatch(loginSuccess(user));  // Dispatch success action
+                navigate('/');
+            }).catch((error) => {
+                dispatch(loginFailure(error)); // Dispatch failure action
+                setErrors({ form: error.message || "An unexpected error occurred." });
+            }).finally(() => {
+                setSubmitting(false);
+            });
         }
     });
 
@@ -38,8 +65,30 @@ const AuthenticationForm = ({ onLogin }) => {
             password: '',
         },
         validationSchema: signInSchema,
-        onSubmit: async (values, { setSubmitting, setErrors }) => {
-            // ... implement this part for signIn API endpoint ...
+        onSubmit: (values, { setSubmitting, setErrors }) => {
+            dispatch(loginStart()); // Dispatch start action
+            fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            }).then((res) => {
+                setSubmitting(false);
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    return res.json().then(err => {
+                        throw err;
+                    });
+                }
+            }).then((user) => {
+                dispatch(loginSuccess(user));  // Dispatch success action
+                navigate('/');
+            }).catch((error) => {
+                dispatch(loginFailure(error)); // Dispatch failure action
+                setErrors({ form: error.message || "An unexpected error occurred." });
+            });
         }
     });
 
@@ -85,13 +134,13 @@ const AuthenticationForm = ({ onLogin }) => {
             <div className="overlay-container">
                 <div className="overlay">
                     <div className="overlay-panel overlay-left">
-                        <h1>Welcome Back!</h1>
-                        <p>To keep connected with us please login with your personal info</p>
+                        <h1>Welcome back</h1>
+                        <p>Please log in</p>
                         <button className="ghost" id="signIn" onClick={() => setIsSignUp(false)}>Sign In</button>
                     </div>
                     <div className="overlay-panel overlay-right">
-                        <h1>Hello, Friend!</h1>
-                        <p>Enter your personal details and start journey with us</p>
+                        <h1>Create an account</h1>
+                        <p>Please sign up with your agency credentials</p>
                         <button className="ghost" id="signUp" onClick={() => setIsSignUp(true)}>Sign Up</button>
                     </div>
                 </div>

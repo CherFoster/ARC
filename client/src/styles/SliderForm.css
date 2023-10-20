@@ -1,57 +1,76 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Bebas+Neue&family=Instrument+Serif&family=Roboto+Slab&family=Tilt+Neon&display=swap');
 
-* {
+/* * {
     box-sizing: border-box;
-}
+} */
 
 body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 5px;
     background: #f6f5f7;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 50vh;
+    height: 100vh;
     margin: -20px 0 50px;
-    background-color: gray;
+    background-image: url(https://wallpapercave.com/wp/wp4203798.jpg);
     background-size: cover;
 }
 
 h1 {
+    font-size: 50px;
     font-weight: bold;
     margin: 0;
     color: beige;
 }
 
 p {
-    font-size: 14px;
+    font-size: 25px;
     font-weight: bold;
-    line-height: 20px;
+    /* line-height: 20px; */
     letter-spacing: 0.5px;
     margin: 20px 0 30px;
+    color: white;
 }
 
-span {
+/* span {
     font-size: 12px;
     color: beige;
-}
+} */
 
-a {
+/* a {
     color: #fff;
     font-size: 14px;
     text-decoration: none;
     margin: 15px 0;
-}
+} */
 
 .container {
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 10px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     position: absolute;
     overflow: hidden;
-    width: 768px;
-    max-width: 100%;
-    min-height: 480px;
-    opacity: 0.8;
+    max-width: 769px;
+    min-height: 480px; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    /* box-sizing: border-box; */
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    /* box-shadow: 0 15px 25px rgba(238, 240, 217, 1); */
+    border-radius: 10px;
+    opacity: 0.95;
+    width: 750px;
+    height: 600px;
 }
 
 .form-container form {
@@ -65,11 +84,11 @@ a {
     text-align: center;
 }
 
-.social-container {
+/* .social-container {
     margin: 20px 0;
-}
+} */
 
-.social-container a {
+/* .social-container a {
     border: 1px solid #ddd;
     border-radius: 50%;
     display: inline-flex;
@@ -78,7 +97,7 @@ a {
     margin: 0 5px;
     height: 40px;
     width: 40px;
-}
+} */
 
 
 .form-container input {
@@ -91,6 +110,7 @@ a {
 
 button {
     border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
     border: 1px solid #ff4b2b;
     background: #ff4b2b;
     color: #fff;
@@ -261,3 +281,4 @@ button.ghost {
 .container.right-panel-active .overlay-right {
     transform: translateX(20%);
 }
+
