@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/checkSession";
 import SignupForm from "./SignupForm";
 import AuthenticationForm from "./AuthenticationForm";
+import MainPage from "./MainPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,7 +24,9 @@ function App() {
   return (
     <>
     <Routes>
+      <Route path="/" element={<MainPage />} />
       <Route path="/signup" element={<AuthenticationForm />} />
+      <Route path="/login" element={<AuthenticationForm />} />
     </Routes>
     
     

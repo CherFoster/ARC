@@ -111,8 +111,8 @@ p {
 button {
     border-radius: 20px;
     font-family: 'Montserrat', sans-serif;
-    border: 1px solid #ff4b2b;
-    background: #ff4b2b;
+    border: 1px solid #2f2bff;
+    background: #2f2bff;
     color: #fff;
     font-size: 12px;
     font-weight: bold;
@@ -179,8 +179,8 @@ button:focus {
 
 button.ghost {
     background: transparent;
-    border-color: #ff4b2b;
-    background-color: #ff4b2b
+    border-color: #2f2bff;
+    background-color: #2f2bff
 }
 
 .form-container {
