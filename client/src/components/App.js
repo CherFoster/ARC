@@ -1,8 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../redux/checkSession";
+import SignupForm from "./SignupForm";
+import AuthenticationForm from "./AuthenticationForm";
 
 function App() {
-  return <h1>Phase 4 Project Client</h1>;
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.session.user);
+
+
+  useEffect(() => {
+    fetch("/api/check_session").then((res) => {
+      if (res.ok){
+        res.json().then((userData) => dispatch(setUser(userData)));
+      }
+    });
+  }, [dispatch]);
+
+  // if (!user) return <LoginPage onLogin={setUser} />;
+
+  return (
+    <>
+    <Routes>
+      <Route path="/signup" element={<AuthenticationForm />} />
+    </Routes>
+    
+    
+    </>
+  )
+  
 }
 
 export default App;
