@@ -1,10 +1,11 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/checkSession";
-import SignupForm from "./SignupForm";
 import AuthenticationForm from "./AuthenticationForm";
 import MainPage from "./MainPage";
+import NavBar from "./NavBar";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,14 +20,14 @@ function App() {
     });
   }, [dispatch]);
 
-  // if (!user) return <LoginPage onLogin={setUser} />;
+  if (!user) return <AuthenticationForm onLogin={setUser} />;
 
   return (
     <>
+    <NavBar user={user} setUser={setUser} />
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="/signup" element={<AuthenticationForm />} />
-      <Route path="/login" element={<AuthenticationForm />} />
     </Routes>
     
     

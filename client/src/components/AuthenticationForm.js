@@ -84,7 +84,9 @@ function AuthenticationForm() {
                 }
             }).then((user) => {
                 dispatch(loginSuccess(user));  // Dispatch success action
-                navigate('/home');
+                setTimeout(() => {
+                    navigate('/home');
+                }, 100);
             }).catch((error) => {
                 dispatch(loginFailure(error)); // Dispatch failure action
                 setErrors({ form: error.message || "An unexpected error occurred." });
@@ -122,7 +124,7 @@ function AuthenticationForm() {
             <div className="form-container sign-in-container">
                 <form onSubmit={signInFormik.handleSubmit}>
                     <h1>Sign in</h1>
-                    <input type="email" placeholder="Email" {...signInFormik.getFieldProps('email')} />
+                    <input type="text" placeholder="Username" {...signInFormik.getFieldProps('username')} />
                     {signInFormik.touched.email && signInFormik.errors.email ? <div className="error">{signInFormik.errors.email}</div> : null}
                     
                     <input type="password" placeholder="Password" {...signInFormik.getFieldProps('password')} />
