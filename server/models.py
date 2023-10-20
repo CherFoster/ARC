@@ -108,7 +108,7 @@ class EvacuationStatus(db.Model, SerializerMixin):
 class Note(db.Model, SerializerMixin):
     __tablename__ = "notes"
 
-    serialize_rules = ('-user.notes', '-house_id', '-user.id', '-user.email', '-user_id', '-house.id', '-id', )
+    serialize_rules = ('-user.notes', '-house_id', '-user.id', '-user.email', '-user_id', '-house.id',)
 
     id = db.Column(db.Integer, primary_key=True)
     details = db.Column(db.String)
@@ -119,7 +119,7 @@ class Note(db.Model, SerializerMixin):
 
     user = db.relationship('User', back_populates='notes')
     house = db.relationship('House', back_populates='notes')
-    
+
     # serialize the full house object so in /houses/id/notes it includes the evacuation status
     def to_dict(self):
         data = super().to_dict()

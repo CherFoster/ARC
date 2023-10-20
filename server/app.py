@@ -4,6 +4,7 @@ from flask_restful import Resource
 from models import User, House, EvacuationStatus, Note
 from config import app, db, api
 from werkzeug.exceptions import NotFound
+from datetime import datetime
 
 @app.route('/')
 def index(id=0):
@@ -180,9 +181,63 @@ class Notes(Resource):
         notes = Note.query.filter_by(house_id=house_id).all()
         note_list = [note.to_dict() for note in notes]
         return make_response(note_list, 200)
-api.add_resource(Notes, '/api/houses/<int:house_id>/notes')
+    
+    def post(self, house_id):
+        if not session.get('user_id'):
+            return {'error': 'Unauthorized, please log in'}, 401
+        
+        # retrieve the user based on the current session
+        user = User.query.get(session['user_id'])
+        if not user:
+            return {'message': 'User not found'}, 404
+        
+        house = House.query.get(house_id)
+        if not house:
+            return {'message': 'House not found'}, 404
+        
+        data = request.get_json()
+        details = data.get('details')
+        medical_conditions = data.get('medical_conditions')
 
+        new_note = Note(
+            details=details,
+            medical_conditions=medical_conditions,
+            timestamp=datetime.utcnow(),
+            user=user,
+            house=house
+        )
+        db.session.add(new_note)
+        db.session.commit()
+        return make_response(new_note.to_dict(), 201)
+    
+    def patch(self, house_id, note_id):
+        note = Note.query.get(note_id)
 
+        data = request.get_json()
+
+        if 'details' in data:
+            note.details = data['details']
+        if 'medical_conditions' in data:
+            note.medical_conditions = data['medical_conditions']
+        db.session.commit()
+        return make_response(note.to_dict(), 200)
+
+    
+    def delete(self, house_id, note_id):
+        if not session.get('user_id'):
+            return {'error': 'Unauthorized, please log in'}, 401
+        
+        user = User.query.get(session['user_id'])
+        if not user:
+            return {'message': 'User not found'}, 404
+        
+        note = Note.query.get(note_id)
+        
+        db.session.delete(note)
+        db.session.commit()
+        return make_response("Deleted", 204)
+
+api.add_resource(Notes, '/api/houses/<int:house_id>/notes', '/api/houses/<int:house_id>/notes/<int:note_id>')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
