@@ -1,16 +1,20 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { NavLink, Dropdown, NavItem } from 'react-bootstrap';
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/authSlice";
 
-function NavBar({ user, setUser }){
+
+function NavBar(){
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     function handleLogout() {
         fetch("/api/logout", {
             method: "DELETE"
         }).then((res) => {
             if (res.ok) {
-                setUser(null)
+                dispatch(logout());
                 navigate("/signup")
             }
         });
@@ -32,6 +36,7 @@ function NavBar({ user, setUser }){
             }}>
                 <Dropdown.Toggle as={NavLink}>Main Menu</Dropdown.Toggle>
                 <Dropdown.Menu>
+                    <Dropdown.Item as={Link} to="/users">Profiles</Dropdown.Item>
                     <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>

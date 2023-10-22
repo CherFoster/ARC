@@ -49,7 +49,7 @@ function AuthenticationForm() {
                 }
             }).then((user) => {
                 dispatch(loginSuccess(user));  // Dispatch success action
-                navigate('/home');
+                navigate('/');
             }).catch((error) => {
                 dispatch(loginFailure(error)); // Dispatch failure action
                 setErrors({ form: error.message || "An unexpected error occurred." });
@@ -61,7 +61,7 @@ function AuthenticationForm() {
 
     const signInFormik = useFormik({
         initialValues: {
-            email: '',
+            username: '',
             password: '',
         },
         validationSchema: signInSchema,
@@ -84,9 +84,7 @@ function AuthenticationForm() {
                 }
             }).then((user) => {
                 dispatch(loginSuccess(user));  // Dispatch success action
-                setTimeout(() => {
-                    navigate('/home');
-                }, 100);
+                navigate('/');
             }).catch((error) => {
                 dispatch(loginFailure(error)); // Dispatch failure action
                 setErrors({ form: error.message || "An unexpected error occurred." });
@@ -100,21 +98,24 @@ function AuthenticationForm() {
     return (
         <div className={`container ${isSignUp ? "right-panel-active" : ""}`} id="container">
 
+            {auth.isLoading && <div>Loading...</div>}
+            {auth.error && <div className="error">Error: {auth.error}</div>}
+
             {/* Sign Up Form */}
             <div className="form-container sign-up-container">
                 <form onSubmit={signUpFormik.handleSubmit}>
-                    <h1>Create Account</h1>
+                    <h1 className='slider-title'>Create Account</h1>
                     <input type="text" placeholder="Username" {...signUpFormik.getFieldProps('username')} />
-                    {signUpFormik.touched.username && signUpFormik.errors.username ? <div className="error">{signUpFormik.errors.username}</div> : null}
+                    {signUpFormik.errors.username ? <div className="error" style={{color: 'red'}}>{signUpFormik.errors.username}</div> : null}
                     
                     <input type="email" placeholder="Email" {...signUpFormik.getFieldProps('email')} />
-                    {signUpFormik.touched.email && signUpFormik.errors.email ? <div className="error">{signUpFormik.errors.email}</div> : null}
+                    {signUpFormik.errors.email ? <div className="error" style={{color: 'red'}}>{signUpFormik.errors.email}</div> : null}
                     
                     <input type="password" placeholder="Password" {...signUpFormik.getFieldProps('password')} />
-                    {signUpFormik.touched.password && signUpFormik.errors.password ? <div className="error">{signUpFormik.errors.password}</div> : null}
+                    {signUpFormik.errors.password ? <div className="error" style={{color: 'red'}}>{signUpFormik.errors.password}</div> : null}
                     
                     <input type="text" placeholder="Agency" {...signUpFormik.getFieldProps('agency')} />
-                    {signUpFormik.touched.agency && signUpFormik.errors.agency ? <div className="error">{signUpFormik.errors.agency}</div> : null}
+                    {signUpFormik.errors.agency ? <div className="error" style={{color: 'red'}}>{signUpFormik.errors.agency}</div> : null}
 
                     <button type="submit">Sign Up</button>
                 </form>
@@ -123,12 +124,12 @@ function AuthenticationForm() {
             {/* Sign In Form */}
             <div className="form-container sign-in-container">
                 <form onSubmit={signInFormik.handleSubmit}>
-                    <h1>Sign in</h1>
+                    <h1 className='slider-title'>Sign in</h1>
                     <input type="text" placeholder="Username" {...signInFormik.getFieldProps('username')} />
-                    {signInFormik.touched.email && signInFormik.errors.email ? <div className="error">{signInFormik.errors.email}</div> : null}
+                    {signInFormik.errors.username ? <div className="error" style={{color: 'red'}}>{signInFormik.errors.username}</div> : null}
                     
                     <input type="password" placeholder="Password" {...signInFormik.getFieldProps('password')} />
-                    {signInFormik.touched.password && signInFormik.errors.password ? <div className="error">{signInFormik.errors.password}</div> : null}
+                    {signInFormik.errors.password ? <div className="error" style={{color: 'red'}}>{signInFormik.errors.password}</div> : null}
                     
                     <button type="submit">Sign In</button>
                 </form>
@@ -152,5 +153,6 @@ function AuthenticationForm() {
         </div>
     );
 };
+
 
 export default AuthenticationForm;

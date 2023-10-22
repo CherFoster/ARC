@@ -6,10 +6,12 @@ import { setUser } from "../redux/checkSession";
 import AuthenticationForm from "./AuthenticationForm";
 import MainPage from "./MainPage";
 import NavBar from "./NavBar";
+import UserProfile from './UserProfile';
 
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
+  const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
@@ -20,14 +22,15 @@ function App() {
     });
   }, [dispatch]);
 
-  if (!user) return <AuthenticationForm onLogin={setUser} />;
+  // if (!user) return <AuthenticationForm onLogin={setUser} />;
 
   return (
     <>
-    <NavBar user={user} setUser={setUser} />
+    {user && <NavBar/>}
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="/signup" element={<AuthenticationForm />} />
+      <Route path="/users" element={<UserProfile/>} />
     </Routes>
     
     
