@@ -11,8 +11,8 @@ import UserProfile from './UserProfile';
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
-  const [loading, setLoading] = useState(true);
-
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+ 
 
   useEffect(() => {
     fetch("/api/check_session").then((res) => {
@@ -20,23 +20,19 @@ function App() {
         res.json().then((userData) => dispatch(setUser(userData)));
       }
     });
-  }, [dispatch]);
+  }, []);
 
-  // if (!user) return <AuthenticationForm onLogin={setUser} />;
-
+  
   return (
     <>
-    {user && <NavBar/>}
-    <Routes>
-      <Route path="/" element={<MainPage />} />
-      <Route path="/signup" element={<AuthenticationForm />} />
-      <Route path="/users" element={<UserProfile/>} />
-    </Routes>
-    
-    
+      {isAuthenticated && <NavBar />}
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        {!isAuthenticated && <Route path="/signup" element={<AuthenticationForm />} />}
+        {isAuthenticated && <Route path="/users" element={<UserProfile />} />}
+      </Routes>
     </>
-  )
-  
+  );
 }
 
 export default App;
