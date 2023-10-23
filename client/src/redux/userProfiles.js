@@ -45,34 +45,4 @@ export const {
     fetchUserProfileByIdFailure
 } = userProfiles.actions;
 
-// export const fetchUserProfiles = () => {
-//     return (dispatch) => {
-//         dispatch(fetchUserProfilesBegin());
-
-//         fetch('/api/users')
-//             .then(response => response.json())
-//             .then(data => {
-//                 dispatch(fetchUserProfilesSuccess(data));
-//             })
-//             .catch(error => {
-//                 dispatch(fetchUserProfilesFailure(error.message));
-//             });
-//     }
-// }
-
-// export const fetchUserProfileById = (id) => {
-//     return (dispatch) => {
-//         dispatch(fetchUserProfileByIdBegin());
-
-//         fetch(`/api/users/${id}`)
-//             .then(response => response.json())
-//             .then(data => {
-//                 dispatch(fetchUserProfileByIdSuccess(data));
-//             })
-//             .catch(error => {
-//                 dispatch(fetchUserProfileByIdFailure(error.message));
-//             });
-//     }
-// }
-
 export default userProfiles.reducer;

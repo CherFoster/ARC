@@ -7,6 +7,7 @@ import AuthenticationForm from "./AuthenticationForm";
 import MainPage from "./MainPage";
 import NavBar from "./NavBar";
 import UserProfile from './UserProfile';
+import MyProfile from './MyProfile';
 
 function App() {
   const dispatch = useDispatch();
