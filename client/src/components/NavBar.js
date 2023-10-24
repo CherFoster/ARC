@@ -36,6 +36,7 @@ function NavBar(){
             }}>
                 <Dropdown.Toggle as={NavLink}>Main Menu</Dropdown.Toggle>
                 <Dropdown.Menu>
+                    <Dropdown.Item as={Link} to="/my-profile">My Profile</Dropdown.Item>
                     <Dropdown.Item as={Link} to="/users">Profiles</Dropdown.Item>
                     <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                 </Dropdown.Menu>

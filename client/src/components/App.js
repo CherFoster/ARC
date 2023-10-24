@@ -31,6 +31,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         {!isAuthenticated && <Route path="/signup" element={<AuthenticationForm />} />}
         {isAuthenticated && <Route path="/users" element={<UserProfile />} />}
+        <Route path="/my-profile" element={<MyProfile/>} />
       </Routes>
     </>
   );

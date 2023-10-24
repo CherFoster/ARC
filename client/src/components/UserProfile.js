@@ -9,18 +9,36 @@ function UserProfile(){
     const profiles = useSelector(state => state.userProfiles.profiles);
     const status = useSelector(state => state.userProfiles.status);
     const error = useSelector(state => state.userProfiles.error);
+    const loggedInUser = useSelector(state => state.auth.user);
 
+    // useEffect(() => {
+    //     // dispatch(fetchUserProfilesBegin());
+    //     fetch('/api/users')
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             dispatch(fetchUserProfilesSuccess(data));
+    //         })
+    //         .catch(error => {
+    //             dispatch(fetchUserProfilesFailure(error.message));
+    //         });
+    // }, [dispatch, loggedInUser]);
     useEffect(() => {
-        // dispatch(fetchUserProfilesBegin());
         fetch('/api/users')
             .then(res => res.json())
             .then(data => {
+                if (loggedInUser) {
+                    const others = data.filter(profile => profile.id !== loggedInUser.id);
+                    const currentUser = data.find(profile => profile.id === loggedInUser.id);
+                    if (currentUser) {
+                        data = [currentUser, ...others];
+                    }
+                }
                 dispatch(fetchUserProfilesSuccess(data));
             })
             .catch(error => {
                 dispatch(fetchUserProfilesFailure(error.message));
             });
-    }, [dispatch]);
+    }, [dispatch, loggedInUser]);
 
     return(
         <div className='user-background'>

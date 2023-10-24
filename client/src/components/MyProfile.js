@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfileStart, updateProfileSuccess, updateProfileFailure } from "../redux/authSlice";
+import { updateProfileInList } from '../redux/userProfiles';
 
 function MyProfile() {
     const user = useSelector(state => state.auth.user);
@@ -37,7 +38,12 @@ function MyProfile() {
             }).then(res => res.json())
             .then(data => {
                 console.log('Profile updated:', data);
-            }).catch(error => console.error('Error updating profile:', error))
+                dispatch(updateProfileSuccess(data));
+                dispatch(updateProfileInList(data)); 
+            }).catch(error => {
+                console.error('Error updating profile:', error);
+                dispatch(updateProfileFailure(error.message)); 
+            })
         }
     });
 
@@ -46,10 +52,8 @@ function MyProfile() {
     return (
         <div className="container mt-4">
             <h2>{profileData.username}'s Profile</h2>
-            <Form onSubmit={formik.handleSubmit}>
-                
-                <Form.Group>
-                    <Form.Label for="image">Profile Picture URL</Form.Label>
+            <Form onSubmit={formik.handleSubmit}> 
+                <Form.Group> 
                     <Form.Control
                         type="text"
                         name="image"
@@ -60,10 +64,10 @@ function MyProfile() {
                     {formik.errors.image ? (
                         <div className="invalid-feedback">{formik.errors.image}</div>
                     ) : null}
+                    <Form.Label for="image">Profile Picture URL</Form.Label>
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Label for="agency">Agency</Form.Label>
                     <Form.Control
                         type="text"
                         name="agency"
@@ -74,6 +78,7 @@ function MyProfile() {
                     {formik.errors.agency ? (
                         <div className="invalid-feedback">{formik.errors.agency}</div>
                     ) : null}
+                    <Form.Label for="agency">Agency</Form.Label>
                 </Form.Group>
 
                 <Button type="submit" variant="primary">Update Profile</Button>

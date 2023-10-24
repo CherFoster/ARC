@@ -32,6 +32,14 @@ const userProfiles = createSlice({
         fetchUserProfileByIdFailure: (state, action) => {
             state.currentProfile = null;
             state.error = action.payload;
+        },
+        updateProfileInList: (state, action) => {
+            const updatedProfile = action.payload;
+            const index = state.profiles.findIndex(profile => profile.id === updatedProfile.id);
+            
+            if (index !== -1) {
+                state.profiles[index] = updatedProfile;
+            }
         }
     }
 });
@@ -42,7 +50,8 @@ export const {
     fetchUserProfilesFailure,
     fetchUserProfileByIdBegin,
     fetchUserProfileByIdSuccess,
-    fetchUserProfileByIdFailure
+    fetchUserProfileByIdFailure,
+    updateProfileInList,
 } = userProfiles.actions;
 
 export default userProfiles.reducer;
