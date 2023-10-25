@@ -2,6 +2,7 @@ import { Card, ListGroup } from 'react-bootstrap';
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHouses } from '../redux/housesSlice';
+import { Link } from "react-router-dom";
 
 function HouseContainer() {
     const dispatch = useDispatch();
@@ -24,7 +25,9 @@ function HouseContainer() {
         <ListGroup>
             {sortedHouses.map(house => (
                 <ListGroup.Item key={house.id}>
-                    {house.house_number} {house.street_name}, {house.city}, {house.zip_code}
+                    <Link to={`/houses/${house.id}`}>
+                        {house.house_number} {house.street_name}, {house.city}, {house.zip_code}
+                    </Link>
                 </ListGroup.Item>
             ))}
         </ListGroup>

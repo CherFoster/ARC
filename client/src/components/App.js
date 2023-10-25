@@ -9,6 +9,7 @@ import NavBar from "./NavBar";
 import UserProfile from './UserProfile';
 import MyProfile from './MyProfile';
 import HouseContainer from './HouseContainer';
+import HouseId from './HouseId';
 
 function App() {
   const dispatch = useDispatch();
@@ -40,8 +41,9 @@ if (loading) return <div>Loading...</div>;
         <Route path="/" element={<MainPage />} />
         {!isAuthenticated && <Route path="/signup" element={<AuthenticationForm />} />}
         {isAuthenticated && <Route path="/users" element={<UserProfile />} />}
-        <Route path="/my-profile" element={<MyProfile/>} />
+        {isAuthenticated && <Route path="/my-profile" element={<MyProfile/>} />}
         <Route path="/houses" element={<HouseContainer />} />
+        <Route path="/houses/:id" element={<HouseId />} />
       </Routes>
     </>
   );
