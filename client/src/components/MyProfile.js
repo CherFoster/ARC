@@ -80,7 +80,7 @@ function MyProfile() {
                     ) : null}
                     <Form.Label for="agency">Agency</Form.Label>
                 </Form.Group>
-
+{/* fix the onsubmit button, doesn't reroute back to /users */}
                 <Button type="submit" variant="primary">Update Profile</Button>
             </Form>
         </div>

@@ -11,17 +11,6 @@ function UserProfile(){
     const error = useSelector(state => state.userProfiles.error);
     const loggedInUser = useSelector(state => state.auth.user);
 
-    // useEffect(() => {
-    //     // dispatch(fetchUserProfilesBegin());
-    //     fetch('/api/users')
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             dispatch(fetchUserProfilesSuccess(data));
-    //         })
-    //         .catch(error => {
-    //             dispatch(fetchUserProfilesFailure(error.message));
-    //         });
-    // }, [dispatch, loggedInUser]);
     useEffect(() => {
         fetch('/api/users')
             .then(res => res.json())

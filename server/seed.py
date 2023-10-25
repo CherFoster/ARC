@@ -75,6 +75,7 @@ if __name__ == '__main__':
             "House unoccupied",
             "Unable to contact"
         ]
+                
         for house in houses:
             status = EvacuationStatus(
                 status = random.choice(status_options),

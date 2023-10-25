@@ -8,20 +8,29 @@ import MainPage from "./MainPage";
 import NavBar from "./NavBar";
 import UserProfile from './UserProfile';
 import MyProfile from './MyProfile';
+import HouseContainer from './HouseContainer';
 
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const [loading, setLoading] = useState(true);
  
 
   useEffect(() => {
     fetch("/api/check_session").then((res) => {
       if (res.ok){
-        res.json().then((userData) => dispatch(setUser(userData)));
+        res.json().then((userData) => {
+          dispatch(setUser(userData));
+          setLoading(false);
+        });
+      } else {
+        setLoading(false);
       }
     });
-  }, []);
+}, []);
+
+if (loading) return <div>Loading...</div>;
 
   
   return (
@@ -32,6 +41,7 @@ function App() {
         {!isAuthenticated && <Route path="/signup" element={<AuthenticationForm />} />}
         {isAuthenticated && <Route path="/users" element={<UserProfile />} />}
         <Route path="/my-profile" element={<MyProfile/>} />
+        <Route path="/houses" element={<HouseContainer />} />
       </Routes>
     </>
   );
