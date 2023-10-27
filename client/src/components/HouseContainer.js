@@ -1,26 +1,30 @@
-import { Card, ListGroup, Button, DropdownButton, Dropdown } from 'react-bootstrap';
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHouses } from '../redux/housesSlice';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { ListGroup } from 'react-bootstrap';
 
 function HouseContainer() {
     const dispatch = useDispatch();
     const houses = useSelector(state => state.houses);
-    const navigate = useNavigate();
-    const [selectedStatuses, setSelectedStatuses] = useState({});
-
-    const sortedHouses = [...houses].sort((a,b) => {
-        if (a.city < b.city) return -1;
-        if (a.city > b.city) return 1;
-        if (a.street_name < b.street_name) return -1;
-        if (a.street_name > b.street_name) return 1;
-        return a.house_number - b.house_number;
-    })
+    const [sortedHouses, setSortedHouses] = useState([]);
 
     useEffect(() => {
         dispatch(fetchHouses());
     }, [dispatch]);
+
+    useEffect(() => {
+        console.log(houses);
+        // sorts the houses
+        const sorted = [...houses].sort((a, b) => {
+            if (a.city < b.city) return -1;
+            if (a.city > b.city) return 1;
+            if (a.street_name < b.street_name) return -1;
+            if (a.street_name > b.street_name) return 1;
+            return a.house_number - b.house_number;
+        });
+        setSortedHouses(sorted);
+    }, [houses]);
 
     const evacuationStatuses = [
         {status: "Not contacted", color: 'red'},
@@ -29,27 +33,49 @@ function HouseContainer() {
         {status: "Needs assistance", color: 'purple'},
         {status: "House unoccupied", color: 'blue'},
         {status: "Unable to contact", color: 'black'},
-    ]
+    ];
 
-    const handleStatusChange = async (houseId, newStatus) => {
+    const handleStatusChange = async (houseId) => {
+        // Find the current house
+        const currentHouse = sortedHouses.find(h => h.id === houseId);
+    
+        // Determine the current status index
+        const currentStatusIndex = evacuationStatuses.findIndex(s => s.status === currentHouse.evacuation_status);
+    
+        // Determine the new status index
+        const newStatusIndex = (currentStatusIndex + 1) % evacuationStatuses.length;
+    
+        // Get the new status
+        const newStatus = evacuationStatuses[newStatusIndex].status;
+    
         try {
             const response = await fetch(`/api/houses/${houseId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ status: newStatus }),
+                body: JSON.stringify({ status: newStatus }), // Aligning with the backend expected field name
             });
     
             if (!response.ok) {
                 throw new Error('Failed to update status');
             }
-            setSelectedStatuses(prev => ({ ...prev, [houseId]: newStatus })); // Update the selected status
-            dispatch(fetchHouses());
-            navigate('/houses')
+    
+            // Update the sorted houses state immediately
+            setSortedHouses(prevHouses => prevHouses.map(house => {
+                if (house.id === houseId) {
+                    return { ...house, evacuation_status: newStatus }; // Use the correct field name
+                }
+                return house;
+            }));
         } catch (error) {
             console.error('Error updating status:', error);
         }
+    };
+
+    const getColorForStatus = (status) => {
+        const statusObj = evacuationStatuses.find(s => s.status === status);
+        return statusObj ? statusObj.color : 'grey'; // Default color if status is not found
     };
 
     return (
@@ -59,27 +85,20 @@ function HouseContainer() {
                     <Link to={`/houses/${house.id}`}>
                         {house.house_number} {house.street_name}, {house.city}, {house.zip_code}
                     </Link>
-                    <DropdownButton
-                        id={`dropdown-button-drop-${house.id}`}
-                        drop="down"
-                        variant="secondary"
-                        title={selectedStatuses[house.id] || house.evacuationStatus || 'Status'} // Use the selected status
-                    >
-                        {evacuationStatuses.map(status => (
-                            <Dropdown.Item
-                                key={status.status}
-                                onClick={() => handleStatusChange(house.id, status.status)}
-                                style={{ color: status.color }}
-                            >
-                                {status.status}
-                            </Dropdown.Item>
-                        ))}
-                    </DropdownButton>
+                    <div 
+                        style={{ 
+                            height: '20px',
+                            width: '20px',
+                            borderRadius: '50%',
+                            backgroundColor: getColorForStatus(house.evacuation_status),
+                            cursor: 'pointer'
+                        }}
+                        onClick={() => handleStatusChange(house.id)}
+                    />
                 </ListGroup.Item>
             ))}
         </ListGroup>
     );
 }
-
 
 export default HouseContainer;
