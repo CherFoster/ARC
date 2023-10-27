@@ -11,6 +11,7 @@ import UserProfile from './UserProfile';
 import MyProfile from './MyProfile';
 import HouseContainer from './HouseContainer';
 import HouseId from './HouseId';
+import Home from './Home';
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +44,7 @@ function App() {
         {isAuthenticated && <Route path="/users" element={<UserProfile />} />}
         {isAuthenticated && <Route path="/my-profile" element={<MyProfile/>} />}
         <Route path="/houses" element={<HouseContainer />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/houses/:id" element={<HouseId />} />
       </Routes>
     </>

@@ -48,7 +48,7 @@ function AuthenticationForm() {
                 }
             }).then((user) => {
                 dispatch(loginSuccess(user));  // Dispatch success action
-                navigate('/');
+                navigate('/home');
             }).catch((error) => {
                 dispatch(loginFailure(error)); // Dispatch failure action
                 setErrors({ form: error.message || "An unexpected error occurred." });
@@ -83,7 +83,7 @@ function AuthenticationForm() {
                 }
             }).then((user) => {
                 dispatch(loginSuccess(user));  // Dispatch success action
-                navigate('/');
+                navigate('/home');
             }).catch((error) => {
                 dispatch(loginFailure(error)); // Dispatch failure action
                 setErrors({ form: error.message || "An unexpected error occurred." });
