@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/checkSession";
+import { loginSuccess, logout } from "../redux/authSlice";
 import AuthenticationForm from "./AuthenticationForm";
 import MainPage from "./MainPage";
 import NavBar from "./NavBar";
@@ -13,27 +14,26 @@ import HouseId from './HouseId';
 
 function App() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.session.user);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [loading, setLoading] = useState(true);
  
-
   useEffect(() => {
     fetch("/api/check_session").then((res) => {
       if (res.ok){
         res.json().then((userData) => {
-          dispatch(setUser(userData));
+          dispatch(setUser(userData)); // Update sessionSlice
+          dispatch(loginSuccess(userData)); // Update authSlice
           setLoading(false);
         });
       } else {
+        dispatch(logout()); // Clear both sessionSlice and authSlice
         setLoading(false);
       }
     });
-}, []);
+  }, [dispatch]);
 
-if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>;
 
-  
   return (
     <>
       {isAuthenticated && <NavBar />}
