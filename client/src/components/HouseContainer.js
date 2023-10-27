@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchHouses } from '../redux/housesSlice';
 import { Link } from "react-router-dom";
 import { ListGroup } from 'react-bootstrap';
-
+import StatusColorList from "./StatusColorList";
 function HouseContainer() {
     const dispatch = useDispatch();
     const houses = useSelector(state => state.houses);
@@ -38,13 +38,10 @@ function HouseContainer() {
     const handleStatusChange = async (houseId) => {
         // Find the current house
         const currentHouse = sortedHouses.find(h => h.id === houseId);
-    
         // Determine the current status index
         const currentStatusIndex = evacuationStatuses.findIndex(s => s.status === currentHouse.evacuation_status);
-    
         // Determine the new status index
         const newStatusIndex = (currentStatusIndex + 1) % evacuationStatuses.length;
-    
         // Get the new status
         const newStatus = evacuationStatuses[newStatusIndex].status;
     
@@ -54,17 +51,15 @@ function HouseContainer() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ status: newStatus }), // Aligning with the backend expected field name
+                body: JSON.stringify({ status: newStatus }),
             });
-    
             if (!response.ok) {
                 throw new Error('Failed to update status');
             }
-    
             // Update the sorted houses state immediately
             setSortedHouses(prevHouses => prevHouses.map(house => {
                 if (house.id === houseId) {
-                    return { ...house, evacuation_status: newStatus }; // Use the correct field name
+                    return { ...house, evacuation_status: newStatus };
                 }
                 return house;
             }));
@@ -79,6 +74,13 @@ function HouseContainer() {
     };
 
     return (
+        <>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', background: 'white' }}>
+            <div style={{ position: 'fixed', width: '300px' }}>
+                <StatusColorList />
+            </div>
+        <div style={{ marginLeft: '300px', flex: '1 1 auto', maxHeight: '80vh', overflowY: 'auto' }}>
+
         <ListGroup>
             {sortedHouses.map(house => (
                 <ListGroup.Item key={house.id} className="d-flex justify-content-between align-items-center">
@@ -98,6 +100,9 @@ function HouseContainer() {
                 </ListGroup.Item>
             ))}
         </ListGroup>
+        </div>
+        </div>
+        </>
     );
 }
 
