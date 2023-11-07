@@ -1,7 +1,7 @@
 import { Card, ListGroup } from 'react-bootstrap';
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserProfilesBegin, fetchUserProfilesSuccess, fetchUserProfilesFailure } from '../redux/userProfiles';
+import { fetchUserProfilesSuccess, fetchUserProfilesFailure } from '../redux/userProfiles';
 import '../styles/UsersList.css';
 
 function UserProfile(){

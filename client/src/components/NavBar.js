@@ -36,8 +36,9 @@ function NavBar(){
             }}>
                 <Dropdown.Toggle as={NavLink}>Main Menu</Dropdown.Toggle>
                 <Dropdown.Menu>
+                    <Dropdown.Item as={Link} to="/home">Home</Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/houses">Evac List</Dropdown.Item>
                     <Dropdown.Item as={Link} to="/my-profile">My Profile</Dropdown.Item>
-                    <Dropdown.Item as={Link} to="/houses">Houses</Dropdown.Item>
                     <Dropdown.Item as={Link} to="/users">Profiles</Dropdown.Item>
                     <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
