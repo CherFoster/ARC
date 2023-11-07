@@ -4,16 +4,16 @@ import { GoogleMap, LoadScript, Marker, StandaloneSearchBox } from '@react-googl
 const libraries = ['places'];
 
 const mapContainerStyle = {
-  width: '600px',
-  height: '450px',
+  width: '809px',
+  height: '300px',
 };
 
 const center = {
-  lat: 38.9575,
-  lng: -95.6757,
+  lat: 39.5501,
+  lng: -105.7821,
 };
 
-function Home() {
+function GoogleMaps() {
   const [map, setMap] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const searchBoxRef = useRef(null);
@@ -88,4 +88,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default GoogleMaps;

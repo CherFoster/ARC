@@ -40,9 +40,9 @@ function App() {
       {isAuthenticated && <NavBar />}
       <Routes>
         <Route path="/" element={<MainPage />} />
-        {!isAuthenticated && <Route path="/signup" element={<AuthenticationForm />} />}
-        {isAuthenticated && <Route path="/users" element={<UserProfile />} />}
-        {isAuthenticated && <Route path="/my-profile" element={<MyProfile/>} />}
+        <Route path="/signup" element={<AuthenticationForm />} />
+        <Route path="/users" element={<UserProfile />} />
+        <Route path="/my-profile" element={<MyProfile/>} />
         <Route path="/houses" element={<HouseContainer />} />
         <Route path="/home" element={<Home />} />
         <Route path="/houses/:id" element={<HouseId />} />

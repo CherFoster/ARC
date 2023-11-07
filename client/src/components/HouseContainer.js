@@ -4,6 +4,7 @@ import { fetchHouses } from '../redux/housesSlice';
 import { Link } from "react-router-dom";
 import { ListGroup } from 'react-bootstrap';
 import StatusColorList from "./StatusColorList";
+import GoogleMaps from './GoogleMaps';
 function HouseContainer() {
     const dispatch = useDispatch();
     const houses = useSelector(state => state.houses);
@@ -75,33 +76,34 @@ function HouseContainer() {
 
     return (
         <>
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', background: 'white' }}>
-            <div style={{ position: 'fixed', width: '300px' }}>
-                <StatusColorList />
-            </div>
-        <div style={{ marginLeft: '300px', flex: '1 1 auto', maxHeight: '80vh', overflowY: 'auto' }}>
+            <div style={{marginBottom: '10px'}}><GoogleMaps /></div>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', background: 'white' }}>
+                <div style={{ position: 'fixed', width: '300px' }}>
+                    <StatusColorList />
+                </div>
+            <div style={{ marginLeft: '300px', flex: '1 1 auto', maxHeight: '80vh', overflowY: 'auto' }}>
 
-        <ListGroup>
-            {sortedHouses.map(house => (
-                <ListGroup.Item key={house.id} className="d-flex justify-content-between align-items-center">
-                    <Link to={`/houses/${house.id}`}>
-                        {house.house_number} {house.street_name}, {house.city}, {house.zip_code}
-                    </Link>
-                    <div 
-                        style={{ 
-                            height: '20px',
-                            width: '20px',
-                            borderRadius: '50%',
-                            backgroundColor: getColorForStatus(house.evacuation_status),
-                            cursor: 'pointer'
-                        }}
-                        onClick={() => handleStatusChange(house.id)}
-                    />
-                </ListGroup.Item>
-            ))}
-        </ListGroup>
-        </div>
-        </div>
+            <ListGroup>
+                {sortedHouses.map(house => (
+                    <ListGroup.Item key={house.id} className="d-flex justify-content-between align-items-center">
+                        <Link to={`/houses/${house.id}`}>
+                            {house.house_number} {house.street_name}, {house.city}, {house.zip_code}
+                        </Link>
+                        <div 
+                            style={{ 
+                                height: '20px',
+                                width: '20px',
+                                borderRadius: '50%',
+                                backgroundColor: getColorForStatus(house.evacuation_status),
+                                cursor: 'pointer'
+                            }}
+                            onClick={() => handleStatusChange(house.id)}
+                        />
+                    </ListGroup.Item>
+                ))}
+            </ListGroup>
+            </div>
+            </div>
         </>
     );
 }
