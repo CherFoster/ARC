@@ -40,18 +40,18 @@ Before you start, ensure you have the following prerequisites installed:
 
 - **User Directory:** A comprehensive list of all users, facilitated by Redux for real-time updates, along with their contact emails for efficient communication.
 
-- **Evacuation Addresses:** A navigation bar lists all addresses requiring evacuation along with their current status, beautifully styled with Bootstrap and dynamically updated with Redux.
+- **Evacuation Addresses:** A navigation bar lists all addresses requiring evacuation along with their current status, styled with Bootstrap and dynamically updated with Redux.
 
-- **Status Update:** Users can update the evacuation status of an address by clicking on the colored circle, with each color representing a different status, managed by Redux for immediate reflection across the platform.
+- **Status Update:** Users can update the evacuation status of an address by clicking on the colored circle, with each color representing a different status.
 
 - **Residence Details:** Clicking on an address provides detailed information about the occupants, managed with Redux to ensure data consistency and real-time updates.
 
-- **Notes:** Users can add critical notes to each house, which are immediately dispatched through Redux to all concerned parties.
+- **Notes:** Users can add critical notes to each house.
 
 ## Usage
 1. Sign up for an account or log in.
-2. Complete your profile setup using our user-friendly Bootstrap forms.
-3. Use the Redux-powered user directory and evacuation list to start managing evacuation efforts.
+2. Complete your profile setup using our user-friendly forms.
+3. Use the user directory and evacuation list to start managing evacuation efforts.
 4. Update statuses and add notes efficiently with immediate synchronization across the platform.
 
 ## Support
