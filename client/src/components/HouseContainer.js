@@ -15,7 +15,6 @@ function HouseContainer() {
     }, [dispatch]);
 
     useEffect(() => {
-        console.log(houses);
         // sorts the houses
         const sorted = [...houses].sort((a, b) => {
             if (a.city < b.city) return -1;
@@ -76,7 +75,7 @@ function HouseContainer() {
 
     return (
         <>
-            <div style={{marginBottom: '10px'}}><GoogleMaps /></div>
+            <div style={{marginBottom: '10px', marginTop: '400px'}}><GoogleMaps /></div>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', background: 'white' }}>
                 <div style={{ position: 'fixed', width: '300px' }}>
                     <StatusColorList />

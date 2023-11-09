@@ -1,70 +1,64 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Introduction
+Advanced Rescue Communication (ARC) is an innovative platform designed to streamline the process of evacuation during emergencies, built using modern web technologies including Redux for state management and Bootstrap for responsive design.
 
-## Available Scripts
+## Tech Stack
 
-In the project directory, you can run:
+- **Frontend:** The user interface is built with Bootstrap, ensuring a responsive and mobile-friendly experience.
+- **State Management:** Redux is used for managing the application's state, providing a predictable state container across the platform.
 
-### `npm start`
+## Getting Started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Prerequisites
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Before you start, ensure you have the following prerequisites installed:
 
-### `npm test`
+- **Node.js**: You'll need Node.js to manage the client-side of the application. You can download it from [nodejs.org](https://nodejs.org/).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Python**: The server-side of the application uses Python. Ensure you have Python installed.
 
-### `npm run build`
+- **Pipenv**: Pipenv is used to manage Python dependencies. You can install it via pip:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  ```bash
+  pip install pipenv
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone the repository
+2. Navigate to the project directory and then into the server directory
+3. Install the server-side dependencies using <code>pipenv install</code> and activate the virtual environment using <code>pipenv shell</code>
+4. Run <code>python app.py</code> for port 5555
+5. In another terminal, navigate to the project directory and then into the client directory
+6. Run <code>npm install</code>
+7. Run <code>npm start</code> for port 3000
 
-### `npm run eject`
+## Features
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- **Account Creation and Sign-in:** Users can create a new account or sign in with existing credentials.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Profile Management:** Users can update their profile with a picture and change their agency affiliation as required, with changes being handled smoothly through Redux.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- **User Directory:** A comprehensive list of all users, facilitated by Redux for real-time updates, along with their contact emails for efficient communication.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- **Evacuation Addresses:** A navigation bar lists all addresses requiring evacuation along with their current status, beautifully styled with Bootstrap and dynamically updated with Redux.
 
-## Learn More
+- **Status Update:** Users can update the evacuation status of an address by clicking on the colored circle, with each color representing a different status, managed by Redux for immediate reflection across the platform.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Residence Details:** Clicking on an address provides detailed information about the occupants, managed with Redux to ensure data consistency and real-time updates.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Notes:** Users can add critical notes to each house, which are immediately dispatched through Redux to all concerned parties.
 
-### Code Splitting
+## Usage
+1. Sign up for an account or log in.
+2. Complete your profile setup using our user-friendly Bootstrap forms.
+3. Use the Redux-powered user directory and evacuation list to start managing evacuation efforts.
+4. Update statuses and add notes efficiently with immediate synchronization across the platform.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Support
+For any technical issues or support, please contact cherise.foster@outlook.com
 
-### Analyzing the Bundle Size
+## Contribution
+No contributing at this time. For questions, please reach out to cherise.foster@outlook.com
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+No licensing available at this time.

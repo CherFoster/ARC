@@ -71,6 +71,7 @@ class House(db.Model, SerializerMixin):
     # show the actual evacuation status as a string 
     def to_dict(self):
         data = super().to_dict()
+        data['users'] = [user.to_dict() for user in self.users]
 
         if self.evacuation_status:
             data['evacuation_status'] = self.evacuation_status.status

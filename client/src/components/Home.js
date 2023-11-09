@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 function Home() {
-
     return (
         <div className='home-page'>
             <Card style={{ width: '35rem', opacity: '0.9', margin: '20px auto' }}>
@@ -21,7 +20,7 @@ function Home() {
                         <Link to='/my-profile'>Update Profile</Link>
                         <br/>
                         <br/>
-                        A team leader or dispatcher will update the list of houses for Evacuation when activated.
+                        A team leader or dispatcher will update the list of houses for evacuation when activated.
                     </Card.Text>
                 </Card.Body>
             </Card>

@@ -12,7 +12,6 @@ import MyProfile from './MyProfile';
 import HouseContainer from './HouseContainer';
 import HouseId from './HouseId';
 import Home from './Home';
-
 function App() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);

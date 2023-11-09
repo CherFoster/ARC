@@ -4,7 +4,7 @@ import { GoogleMap, LoadScript, Marker, StandaloneSearchBox } from '@react-googl
 const libraries = ['places'];
 
 const mapContainerStyle = {
-  width: '809px',
+  width: '880px',
   height: '300px',
 };
 
@@ -30,7 +30,8 @@ function GoogleMaps() {
       lat: place.geometry.location.lat(),
       lng: place.geometry.location.lng(),
     });
-
+    
+    // If the place has a geometry, then present it on a map.
     if (place.geometry.viewport) {
       map.fitBounds(place.geometry.viewport);
     } else {
@@ -61,6 +62,7 @@ function GoogleMaps() {
             type="text"
             placeholder="Enter a location"
             style={{
+                color: 'black',
                 width: `240px`,
                 border: `1px solid black`,
                 height: `32px`,
@@ -74,7 +76,7 @@ function GoogleMaps() {
         <GoogleMap
             mapContainerStyle={mapContainerStyle}
             center={center}
-            zoom={10}
+            zoom={7}
             onLoad={setMap}
         >
             {selectedPlace && (

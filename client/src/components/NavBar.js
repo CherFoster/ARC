@@ -3,8 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { NavLink, Dropdown, NavItem } from 'react-bootstrap';
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/authSlice";
-
-
 function NavBar(){
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -44,9 +42,7 @@ function NavBar(){
                 </Dropdown.Menu>
             </Dropdown>
         </>
-
     )
-
 }
 
 export default NavBar;

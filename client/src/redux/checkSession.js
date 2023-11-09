@@ -8,10 +8,7 @@ export const sessionSlice = createSlice({
     reducers: {
         setUser: (state, action) => {
             state.user = action.payload;
-        },
-        clearUser: (state) => {
-            state.user = null;
-        },
+        }
     },
 });
 

@@ -49,8 +49,13 @@ class Login(Resource):
                 session['user_id'] = user.id
                 response = make_response(user.to_dict(), 200)
                 return response
-            print(f"Username: {username}, Password: {password}")
-        return {'Incorrect username or password'}, 401
+            else:
+                # User found, but password does not match
+                return {'message': 'Incorrect password'}, 401
+        else:
+            # User not found
+            return {'message': 'Account not found'}, 404
+        # return {'Incorrect username or password'}, 401
 api.add_resource(Login, '/api/login')
 
 class CheckSession(Resource):

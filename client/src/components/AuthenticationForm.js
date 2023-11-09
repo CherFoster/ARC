@@ -85,7 +85,7 @@ function AuthenticationForm() {
                 dispatch(loginSuccess(user));  // Dispatch success action
                 navigate('/home');
             }).catch((error) => {
-                dispatch(loginFailure(error)); // Dispatch failure action
+                dispatch(loginFailure(error.message || "An unexpected error occurred.")); // Dispatch failure action
                 setErrors({ form: error.message || "An unexpected error occurred." });
             });
         }

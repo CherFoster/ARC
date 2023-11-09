@@ -31,7 +31,7 @@ if __name__ == '__main__':
         db.session.commit()
 
         houses = []
-        for _ in range(10):
+        for _ in range(20):
             house = House(
                 house_number = fake.random_int(min=000, max=9999),
                 street_name = fake.street_name(),
@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
         assignments = []
         for user in users:
-            user_houses = random.sample(houses, k=randint(1,5))
+            user_houses = random.sample(houses, k=randint(1,4))
             for house in user_houses:
                 # create a SQL statement to insert an assignment into the assignment table
                 stmt = assignment.insert().values(

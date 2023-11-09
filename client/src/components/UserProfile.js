@@ -7,8 +7,6 @@ import '../styles/UsersList.css';
 function UserProfile(){
     const dispatch = useDispatch()
     const profiles = useSelector(state => state.userProfiles.profiles);
-    // const status = useSelector(state => state.userProfiles.status);
-    // const error = useSelector(state => state.userProfiles.error);
     const loggedInUser = useSelector(state => state.auth.user);
 
     useEffect(() => {
